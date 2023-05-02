@@ -69,7 +69,7 @@ class Playlist(metaclass=abc.ABCMeta):
 
 
 class Playable(metaclass=abc.ABCMeta):
-    """Base ABC Track used in all the Wavelink Track types.
+    """Base ABC Track used in all the wavelinkcord Track types.
 
     Attributes
     ----------
@@ -235,7 +235,7 @@ class Playable(metaclass=abc.ABCMeta):
 
 
 class GenericTrack(Playable):
-    """Generic Wavelink Track.
+    """Generic wavelinkcord Track.
 
     Use this track for searching for Local songs or direct URLs.
     """

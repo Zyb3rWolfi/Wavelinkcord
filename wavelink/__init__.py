@@ -21,11 +21,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-__title__ = "WaveLink"
+__title__ = "WaveLinkCord"
 __author__ = "PythonistaGuild, EvieePy"
 __license__ = "MIT"
 __copyright__ = "Copyright 2019-Present (c) PythonistaGuild, EvieePy"
+<<<<<<< HEAD
+__version__ = "2.0.4"
+=======
 __version__ = "2.2.1"
+>>>>>>> 8c9fd7fa5dc64e03a0012a220c0fa5d86b6403db
 
 from .enums import *
 from .exceptions import *
