@@ -51,7 +51,7 @@ class BaseQueue:
     def __repr__(self) -> str:
         """Official representation with max_size and member count."""
         return (
-            f"wavelinkcord Queue: members={self.count}")
+            f"Wavelink Queue: members={self.count}")
 
     def __bool__(self) -> bool:
         """Treats the queue as a bool, with it evaluating True when it contains members."""
@@ -127,12 +127,8 @@ class BaseQueue:
 
     def _get(self) -> Playable | spotify.SpotifyTrack:
         if self.is_empty:
-<<<<<<< HEAD
-            raise QueueEmpty("No items currently in the queue")
-=======
             raise QueueEmpty("No items currently in the queue.")
 
->>>>>>> 8c9fd7fa5dc64e03a0012a220c0fa5d86b6403db
         return self._queue.popleft()
 
     def _drop(self) -> Playable | spotify.SpotifyTrack:

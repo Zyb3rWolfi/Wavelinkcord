@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, TypedDict
 
 if TYPE_CHECKING:
-    from nextcord.types.voice import GuildVoiceState, VoiceServerUpdate
+    from discord.types.voice import GuildVoiceState, VoiceServerUpdate
     from typing_extensions import NotRequired, TypeAlias
     
 class VoiceState(TypedDict):
@@ -12,5 +12,5 @@ class VoiceState(TypedDict):
     ping: NotRequired[int]
 
 
-class nextcordVoiceState(GuildVoiceState, VoiceServerUpdate):
+class DiscordVoiceState(GuildVoiceState, VoiceServerUpdate):
     ...

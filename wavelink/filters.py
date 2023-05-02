@@ -49,7 +49,7 @@ class BaseFilter(abc.ABC):
         self.name: str = name or "Unknown"
 
     def __repr__(self) -> str:
-        return f"<wavelinkcord.BaseFilter name={self.name}>"
+        return f"<wavelink.BaseFilter name={self.name}>"
 
     @property
     @abc.abstractmethod
@@ -85,7 +85,7 @@ class Equalizer(BaseFilter):
         self.bands = [{"band": band, "gain": _dict[band]} for band in range(15)]
 
     def __repr__(self) -> str:
-        return f"<wavelinkcord.Equalizer name={self.name}>"
+        return f"<wavelink.Equalizer name={self.name}>"
 
     @property
     def _payload(self) -> list[dict[str, float]]:
@@ -171,7 +171,7 @@ class Karaoke(BaseFilter):
         self.filter_width: float = filter_width
 
     def __repr__(self) -> str:
-        return f"<wavelinkcord.Karaoke level={self.level}, mono_level={self.mono_level}, " \
+        return f"<wavelink.Karaoke level={self.level}, mono_level={self.mono_level}, " \
                f"filter_band={self.filter_band}, filter_width={self.filter_width}>"
 
     @property
@@ -223,7 +223,7 @@ class Timescale(BaseFilter):
         self.rate: float = rate
 
     def __repr__(self) -> str:
-        return f"<wavelinkcord.Timescale speed={self.speed}, pitch={self.pitch}, rate={self.rate}>"
+        return f"<wavelink.Timescale speed={self.speed}, pitch={self.pitch}, rate={self.rate}>"
 
     @property
     def _payload(self) -> dict[str, float]:
@@ -267,7 +267,7 @@ class Tremolo(BaseFilter):
         self.depth: float = depth
 
     def __repr__(self) -> str:
-        return f"<wavelinkcord.Tremolo frequency={self.frequency}, depth={self.depth}>"
+        return f"<wavelink.Tremolo frequency={self.frequency}, depth={self.depth}>"
 
     @property
     def _payload(self) -> dict[str, float]:
@@ -310,7 +310,7 @@ class Vibrato(BaseFilter):
         self.depth: float = depth
 
     def __repr__(self) -> str:
-        return f"<wavelinkcord.Vibrato frequency={self.frequency}, depth={self.depth}>"
+        return f"<wavelink.Vibrato frequency={self.frequency}, depth={self.depth}>"
 
     @property
     def _payload(self) -> dict[str, float]:
@@ -339,7 +339,7 @@ class Rotation(BaseFilter):
         self.speed: float = speed
 
     def __repr__(self) -> str:
-        return f"<wavelinkcord.Rotation speed={self.speed}>"
+        return f"<wavelink.Rotation speed={self.speed}>"
 
     @property
     def _payload(self) -> dict[str, float]:
@@ -375,7 +375,7 @@ class Distortion(BaseFilter):
         self.scale: float = scale
 
     def __repr__(self) -> str:
-        return f"<wavelinkcord.Distortion " \
+        return f"<wavelink.Distortion " \
                f"sin_offset={self.sin_offset}, " \
                f"sin_scale={self.sin_scale}, cos_offset={self.cos_offset}, " \
                f"cos_scale={self.cos_scale}, tan_offset={self.tan_offset}, " \
@@ -444,7 +444,7 @@ class ChannelMix(BaseFilter):
         self.right_to_left: float = right_to_left
 
     def __repr__(self) -> str:
-        return f"<wavelinkcord.ChannelMix " \
+        return f"<wavelink.ChannelMix " \
                f"left_to_left={self.left_to_left}, " \
                f"right_to_right{self.right_to_right}, " \
                f"left_to_right={self.left_to_right}, " \
@@ -517,7 +517,7 @@ class LowPass(BaseFilter):
         self.smoothing: float = smoothing
 
     def __repr__(self) -> str:
-        return f"<wavelinkcord.LowPass smoothing={self.smoothing}>"
+        return f"<wavelink.LowPass smoothing={self.smoothing}>"
 
     @property
     def _payload(self) -> dict[str, float]:
@@ -534,25 +534,25 @@ class Filter:
 
     Parameters
     ----------
-    filter: wavelinkcord.Filter
+    filter: wavelink.Filter
         An instance of this filter class.
-    equalizer: wavelinkcord.Equalizer
+    equalizer: wavelink.Equalizer
         An equalizer to apply to the track.
-    karaoke: wavelinkcord.Karaoke
+    karaoke: wavelink.Karaoke
         A karaoke filter to apply to the track.
-    timescale: wavelinkcord.Timescale
+    timescale: wavelink.Timescale
         A timescale filter to apply to the track.
-    tremolo: wavelinkcord.Tremolo
+    tremolo: wavelink.Tremolo
         A tremolo filter to apply to the track.
-    vibrato: wavelinkcord.Vibrato
+    vibrato: wavelink.Vibrato
         A vibrato filter to apply to the track.
-    rotation: wavelinkcord.Rotation
+    rotation: wavelink.Rotation
         A rotation filter to apply to the track.
-    distortion: wavelinkcord.Distortion
+    distortion: wavelink.Distortion
         A distortion filter to apply to the track.
-    channel_mix: wavelinkcord.ChannelMix
+    channel_mix: wavelink.ChannelMix
         A channel mix filter to apply to the track.
-    low_pass: wavelinkcord.LowPass
+    low_pass: wavelink.LowPass
         A low pass filter to apply to the track.
 
     """
@@ -585,7 +585,7 @@ class Filter:
         self.low_pass: LowPass | None = low_pass
 
     def __repr__(self) -> str:
-        return f"<wavelinkcord.Filter equalizer={self.equalizer}, " \
+        return f"<wavelink.Filter equalizer={self.equalizer}, " \
                f"karaoke={self.karaoke}, timescale={self.timescale}, tremolo={self.tremolo}, " \
                f"vibrato={self.vibrato}, rotation={self.rotation}, distortion={self.distortion}, " \
                f"channel_mix={self.channel_mix}, low_pass={self.low_pass}>"
