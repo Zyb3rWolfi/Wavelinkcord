@@ -46,7 +46,7 @@ if TYPE_CHECKING:
 
     from .types.events import PlayerState, PlayerUpdateOp
     from .types.request import EncodedTrackRequest, Request
-    from .types.state import DiscordVoiceState
+    from .types.state import nextcordVoiceState
 
 __all__ = ("Player",)
 
@@ -60,7 +60,11 @@ VoiceChannel = Union[
 
 
 class Player(nextcord.VoiceProtocol):
+<<<<<<< HEAD
+    """wavelinkcord Player class.
+=======
     """Wavelink Player class.
+>>>>>>> 8c9fd7fa5dc64e03a0012a220c0fa5d86b6403db
 
     This class is used as a :class:`nextcord.VoiceProtocol` and inherits all its members.
 
@@ -89,7 +93,7 @@ class Player(nextcord.VoiceProtocol):
     current_node: :class:`node.Node`
         The Node this player is currently using.
     queue: :class:`queue.Queue`
-        The wavelink built in Queue. See :class:`queue.Queue`. This queue always takes precedence over the auto_queue.
+        The wavelinkcord built in Queue. See :class:`queue.Queue`. This queue always takes precedence over the auto_queue.
         Meaning any songs in this queue will be played before auto_queue songs.
     auto_queue: :class:`queue.Queue`
         The built-in AutoPlay Queue. This queue keeps track of recommended songs only.
@@ -134,7 +138,11 @@ class Player(nextcord.VoiceProtocol):
             self.client = self.current_node.client
 
         self._guild: nextcord.Guild | None = None
+<<<<<<< HEAD
+        self._voice_state: nextcordVoiceState = {}
+=======
         self._voice_state: DiscordVoiceState = {}
+>>>>>>> 8c9fd7fa5dc64e03a0012a220c0fa5d86b6403db
         self._player_state: dict[str, Any] = {}
 
         self.swap_on_disconnect: bool = swap_node_on_disconnect
@@ -163,16 +171,27 @@ class Player(nextcord.VoiceProtocol):
 
         if payload.reason == 'REPLACED':
             return
+<<<<<<< HEAD
+        
+=======
 
+>>>>>>> 8c9fd7fa5dc64e03a0012a220c0fa5d86b6403db
         if self.queue.loop:
             try:
                 track = self.queue.get()
             except QueueEmpty:
                 return
+<<<<<<< HEAD
+            
+            await self.play(track)
+            return
+        
+=======
 
             await self.play(track)
             return
 
+>>>>>>> 8c9fd7fa5dc64e03a0012a220c0fa5d86b6403db
         if self.queue:
             populate = len(self.auto_queue) < self._auto_threshold
             await self.play(self.queue.get(), populate=populate)
@@ -304,7 +323,7 @@ class Player(nextcord.VoiceProtocol):
             assert self._guild is not None
             self.current_node._players[self._guild.id] = self
 
-    async def _dispatch_voice_update(self, data: DiscordVoiceState | None = None) -> None:
+    async def _dispatch_voice_update(self, data: nextcordVoiceState | None = None) -> None:
         assert self._guild is not None
 
         data = data or self._voice_state
@@ -360,7 +379,7 @@ class Player(nextcord.VoiceProtocol):
                    ) -> Playable:
         """|coro|
 
-        Play a WaveLink Track.
+        Play a wavelinkcord Track.
 
         Parameters
         ----------
@@ -515,7 +534,11 @@ class Player(nextcord.VoiceProtocol):
                                                              data={'encodedTrack': None})
 
         self.queue._loaded = None
+<<<<<<< HEAD
+        
+=======
 
+>>>>>>> 8c9fd7fa5dc64e03a0012a220c0fa5d86b6403db
         self._player_state['track'] = None
         logger.debug(f'Player {self.guild.id} was stopped.')
 
@@ -531,7 +554,7 @@ class Player(nextcord.VoiceProtocol):
 
         Parameters
         ----------
-        filter: :class:`wavelink.Filter`
+        filter: :class:`wavelinkcord.Filter`
             The filter to apply to the player.
         seek: bool
             Whether to seek the player to its current position

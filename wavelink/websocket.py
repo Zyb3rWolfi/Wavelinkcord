@@ -29,7 +29,7 @@ from typing import TYPE_CHECKING, Any, Optional
 
 import aiohttp
 
-import wavelink
+import wavelinkcord
 
 from . import __version__
 from .backoff import Backoff
@@ -77,7 +77,7 @@ class Websocket:
         return {
             'Authorization': self.node.password,
             'User-Id': str(self.node.client.user.id),
-            'Client-Name': f'Wavelink/{__version__}'
+            'Client-Name': f'wavelinkcord/{__version__}'
         }
 
     def is_connected(self) -> bool:
@@ -96,7 +96,11 @@ class Websocket:
             logger.debug(f'An error was raised while cancelling the websocket listener. {e}')
 
         uri: str = self.node._host.removeprefix('https://').removeprefix('http://')
+<<<<<<< HEAD
+        
+=======
 
+>>>>>>> 8c9fd7fa5dc64e03a0012a220c0fa5d86b6403db
         if self.node._use_http:
             uri: str = f'{"https://" if self.node._secure else "http://"}{uri}'
         else:
@@ -126,14 +130,14 @@ class Websocket:
         self.retry = self.backoff.calculate()
 
         if self.retries == 0:
-            logger.error('Wavelink 2.0 was unable to connect, and has exhausted the reconnection attempt limit. '
+            logger.error('wavelinkcord 2.0 was unable to connect, and has exhausted the reconnection attempt limit. '
                          'Please check your Lavalink Node is started and your connection details are correct.')
 
             await self.cleanup()
             return
 
         retries = f'{self.retries} attempt(s) remaining.' if self.retries else ''
-        logger.error(f'Wavelink 2.0 was unable to connect, retrying connection in: "{self.retry}" seconds. {retries}')
+        logger.error(f'wavelinkcord 2.0 was unable to connect, retrying connection in: "{self.retry}" seconds. {retries}')
 
         if self.retries:
             self.retries -= 1
@@ -195,6 +199,10 @@ class Websocket:
                     if data['code'] == 4014:
                         continue
 
+<<<<<<< HEAD
+                track = await self.node.build_track(cls=wavelinkcord.GenericTrack, encoded=data['encodedTrack'])
+                payload: TrackEventPayload = TrackEventPayload(data=data, track=track, player=player)
+=======
                 track = await self.node.build_track(cls=wavelink.GenericTrack, encoded=data['encodedTrack'])
                 payload: TrackEventPayload = TrackEventPayload(
                     data=data,
@@ -202,6 +210,7 @@ class Websocket:
                     player=player,
                     original=player._original
                 )
+>>>>>>> 8c9fd7fa5dc64e03a0012a220c0fa5d86b6403db
 
                 if payload.event is TrackEventType.END and payload.reason != 'REPLACED':
                     player._current = None
@@ -227,8 +236,8 @@ class Websocket:
 
             else:
                 logger.info(f'Received unknown payload from Lavalink: <{data}>. '
-                            f'If this continues consider making a ticket on the Wavelink GitHub. '
-                            f'https://github.com/PythonistaGuild/Wavelink')
+                            f'If this continues consider making a ticket on the wavelinkcord GitHub. '
+                            f'https://github.com/PythonistaGuild/wavelinkcord')
 
     def get_player(self, payload: dict[str, Any]) -> Optional['Player']:
         return self.node.players.get(int(payload['guildId']), None)

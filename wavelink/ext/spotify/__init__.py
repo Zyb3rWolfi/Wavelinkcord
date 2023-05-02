@@ -33,11 +33,11 @@ from typing import Any, List, Optional, Type, TypeVar, Union, TYPE_CHECKING
 import aiohttp
 from nextcord.ext import commands
 
-import wavelink
-from wavelink import Node, NodePool
+import wavelinkcord
+from wavelinkcord import Node, NodePool
 
 if TYPE_CHECKING:
-    from wavelink import Player, Playable
+    from wavelinkcord import Player, Playable
 
 
 __all__ = ('SpotifySearchType',
@@ -79,7 +79,7 @@ def decode_url(url: str) -> Optional[dict]:
 
     .. code:: python3
 
-        from wavelink.ext import spotify
+        from wavelinkcord.ext import spotify
 
         ...
 
@@ -263,7 +263,7 @@ class SpotifyTrack:
             The song to search for.
         type: Optional[:class:`spotify.SpotifySearchType`]
             An optional enum value to use when searching with Spotify. Defaults to track.
-        node: Optional[:class:`wavelink.Node`]
+        node: Optional[:class:`wavelinkcord.Node`]
             An optional Node to use to make the search with.
         return_first: Optional[bool]
             An optional bool which when set to True will return only the first track found. Defaults to False.
@@ -325,7 +325,7 @@ class SpotifyTrack:
     async def convert(cls: Type[ST], ctx: commands.Context, argument: str) -> ST:
         """Converter which searches for and returns the first track.
 
-        Used as a type hint in a discord.py command.
+        Used as a type hint in a nextcord.py command.
         """
         results = await cls.search(argument)
 
@@ -338,14 +338,14 @@ class SpotifyTrack:
         """
         Parameters
         ----------
-        player: :class:`wavelink.player.Player`
+        player: :class:`wavelinkcord.player.Player`
             If Player.autoplay is enabled, this search will fill the AutoPlay Queue.
         cls
             The class to convert this Spotify Track to.
         """
         try:
             tracks: list[cls] = await cls.search(f'"{self.isrc}"')
-        except wavelink.NoTracksError:
+        except wavelinkcord.NoTracksError:
             tracks: list[cls] = await cls.search(f'{self.name} - {self.artists[0]}')
 
         if not player.autoplay or not populate:

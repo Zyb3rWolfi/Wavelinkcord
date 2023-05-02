@@ -38,12 +38,12 @@ __all__ = ('TrackEventPayload', )
 
 
 class TrackEventPayload:
-    """The Wavelink Track Event Payload.
+    """The wavelinkcord Track Event Payload.
 
     .. warning::
 
         This class should not be created manually, instead you will receive it from the
-        various wavelink track events.
+        various wavelinkcord track events.
 
     Attributes
     ----------
