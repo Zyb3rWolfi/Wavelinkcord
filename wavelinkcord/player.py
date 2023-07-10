@@ -60,7 +60,7 @@ VoiceChannel = Union[
 
 
 class Player(nextcord.VoiceProtocol):
-    """Wavelink Player class.
+    """wavelinkcord Player class.
 
     This class is used as a :class:`~nextcord.VoiceProtocol` and inherits all its members.
 
@@ -89,7 +89,7 @@ class Player(nextcord.VoiceProtocol):
     current_node: :class:`node.Node`
         The Node this player is currently using.
     queue: :class:`queue.Queue`
-        The wavelink built in Queue. See :class:`queue.Queue`. This queue always takes precedence over the auto_queue.
+        The wavelinkcord built in Queue. See :class:`queue.Queue`. This queue always takes precedence over the auto_queue.
         Meaning any songs in this queue will be played before auto_queue songs.
     auto_queue: :class:`queue.Queue`
         The built-in AutoPlay Queue. This queue keeps track of recommended songs only.
@@ -179,10 +179,6 @@ class Player(nextcord.VoiceProtocol):
             populate = len(self.auto_queue) < self._auto_threshold
             await self.play(self.queue.get(), populate=populate)
 
-            return
-
-        if self.queue.loop_all:
-            await self.play(self.queue.get())
             return
 
         if not self.auto_queue:
@@ -390,7 +386,7 @@ class Player(nextcord.VoiceProtocol):
                    ) -> Playable:
         """|coro|
 
-        Play a WaveLink Track.
+        Play a wavelinkcord Track.
 
         Parameters
         ----------
@@ -457,12 +453,6 @@ class Player(nextcord.VoiceProtocol):
             raise e
 
         self._player_state['track'] = resp['track']['encoded']
-
-        if self.queue.loop and self.queue._loaded:
-            pass
-        else:
-            self.queue.history.put(track)
-
         self.queue._loaded = track
 
         return track
@@ -567,7 +557,7 @@ class Player(nextcord.VoiceProtocol):
 
         Parameters
         ----------
-        filter: :class:`wavelink.Filter`
+        filter: :class:`wavelinkcord.Filter`
             The filter to apply to the player.
         seek: bool
             Whether to seek the player to its current position

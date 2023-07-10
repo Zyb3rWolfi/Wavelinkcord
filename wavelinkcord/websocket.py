@@ -29,7 +29,7 @@ from typing import TYPE_CHECKING, Any, Optional
 
 import aiohttp
 
-import wavelink
+import wavelinkcord
 
 from . import __version__
 from .backoff import Backoff
@@ -79,7 +79,7 @@ class Websocket:
         return {
             'Authorization': self.node.password,
             'User-Id': str(self.node.client.user.id),
-            'Client-Name': f'Wavelink/{__version__}'
+            'Client-Name': f'wavelinkcord/{__version__}'
         }
 
     def is_connected(self) -> bool:
@@ -129,14 +129,14 @@ class Websocket:
         self.retry = self.backoff.calculate()
 
         if self.retries == 0:
-            logger.error('Wavelink 2.0 was unable to connect, and has exhausted the reconnection attempt limit. '
+            logger.error('wavelinkcord 2.0 was unable to connect, and has exhausted the reconnection attempt limit. '
                          'Please check your Lavalink Node is started and your connection details are correct.')
 
             await self.cleanup()
             return
 
         retries = f'{self.retries} attempt(s) remaining.' if self.retries else ''
-        logger.error(f'Wavelink 2.0 was unable to connect, retrying connection in: "{self.retry}" seconds. {retries}')
+        logger.error(f'wavelinkcord 2.0 was unable to connect, retrying connection in: "{self.retry}" seconds. {retries}')
 
         if self.retries:
             self.retries -= 1
@@ -203,7 +203,7 @@ class Websocket:
                     self.dispatch('websocket_closed', payload)
                     continue
 
-                track = await self.node.build_track(cls=wavelink.GenericTrack, encoded=data['encodedTrack'])
+                track = await self.node.build_track(cls=wavelinkcord.GenericTrack, encoded=data['encodedTrack'])
                 payload: TrackEventPayload = TrackEventPayload(
                     data=data,
                     track=track,
@@ -235,8 +235,8 @@ class Websocket:
 
             else:
                 logger.info(f'Received unknown payload from Lavalink: <{data}>. '
-                            f'If this continues consider making a ticket on the Wavelink GitHub. '
-                            f'https://github.com/PythonistaGuild/Wavelink')
+                            f'If this continues consider making a ticket on the wavelinkcord GitHub. '
+                            f'https://github.com/PythonistaGuild/wavelinkcord')
 
     def get_player(self, payload: dict[str, Any]) -> Optional['Player']:
         return self.node.players.get(int(payload['guildId']), None)

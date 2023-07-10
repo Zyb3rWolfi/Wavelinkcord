@@ -33,11 +33,11 @@ from typing import Any, List, Optional, Type, TypeVar, Union, TYPE_CHECKING
 import aiohttp
 from nextcord.ext import commands
 
-import wavelink
-from wavelink import Node, NodePool
+import wavelinkcord
+from wavelinkcord import Node, NodePool
 
 if TYPE_CHECKING:
-    from wavelink import Player, Playable
+    from wavelinkcord import Player, Playable
 
 
 __all__ = ('SpotifySearchType',
@@ -79,7 +79,7 @@ def decode_url(url: str) -> Optional[dict]:
 
     .. code:: python3
 
-        from wavelink.ext import spotify
+        from wavelinkcord.ext import spotify
 
         ...
 
@@ -112,7 +112,7 @@ class SpotifySearchType(enum.Enum):
     playlist
         Playlist search type.
     unusable
-        Unusable type. This type is returned when Wavelink can not be used to play this track.
+        Unusable type. This type is returned when wavelinkcord can not be used to play this track.
     """
     track = 0
     album = 1
@@ -274,7 +274,7 @@ class SpotifyTrack:
             The song to search for.
         type: Optional[:class:`~SpotifySearchType`]
             An optional enum value to use when searching with Spotify. Defaults to track.
-        node: Optional[:class:`wavelink.Node`]
+        node: Optional[:class:`wavelinkcord.Node`]
             An optional Node to use to make the search with.
 
         Returns
@@ -328,7 +328,7 @@ class SpotifyTrack:
             Limit the amount of tracks returned.
         type: :class:`~SpotifySearchType`
             The type of search. Must be either playlist or album. Defaults to playlist.
-        node: Optional[:class:`wavelink.Node`]
+        node: Optional[:class:`wavelinkcord.Node`]
             An optional node to use when querying for tracks. Defaults to the best available.
 
         Examples
@@ -369,18 +369,18 @@ class SpotifyTrack:
         return results[0]
 
     async def fulfill(self, *, player: Player, cls: Playable, populate: bool) -> Playable:
-        """Used to fulfill the :class:`wavelink.Player` Auto Play Queue.
+        """Used to fulfill the :class:`wavelinkcord.Player` Auto Play Queue.
 
         .. warning::
 
-            Usually you would not call this directly. Instead you would set :attr:`wavelink.Player.autoplay` to true,
+            Usually you would not call this directly. Instead you would set :attr:`wavelinkcord.Player.autoplay` to true,
             and allow the player to fulfill this request automatically.
 
 
         Parameters
         ----------
-        player: :class:`wavelink.player.Player`
-            If :attr:`wavelink.Player.autoplay` is enabled, this search will fill the AutoPlay Queue with more tracks.
+        player: :class:`wavelinkcord.player.Player`
+            If :attr:`wavelinkcord.Player.autoplay` is enabled, this search will fill the AutoPlay Queue with more tracks.
         cls
             The class to convert this Spotify Track to.
         """
@@ -423,7 +423,7 @@ class SpotifyTrack:
 
 
 class SpotifyClient:
-    """Spotify client passed to :class:`wavelink.Node` for searching via Spotify.
+    """Spotify client passed to :class:`wavelinkcord.Node` for searching via Spotify.
 
     Parameters
     ----------

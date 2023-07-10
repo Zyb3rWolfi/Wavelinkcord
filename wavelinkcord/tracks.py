@@ -69,7 +69,7 @@ class Playlist(metaclass=abc.ABCMeta):
 
 
 class Playable(metaclass=abc.ABCMeta):
-    """Base ABC Track used in all the Wavelink Track types.
+    """Base ABC Track used in all the wavelinkcord Track types.
 
     Attributes
     ----------
@@ -89,7 +89,7 @@ class Playable(metaclass=abc.ABCMeta):
         The position the track will start in milliseconds. Defaults to 0.
     title: str
         The Track title.
-    source: :class:`wavelink.TrackSource`
+    source: :class:`wavelinkcord.TrackSource`
         The source this Track was fetched from.
     uri: Optional[str]
         The URI of this track. Could be None.
@@ -185,9 +185,9 @@ class Playable(metaclass=abc.ABCMeta):
         ----------
         query: str
             The query to search for.
-        node: Optional[:class:`wavelink.Node`]
-            The node to use when searching for tracks. If no :class:`wavelink.Node` is passed,
-            one will be fetched via the :class:`wavelink.NodePool`.
+        node: Optional[:class:`wavelinkcord.Node`]
+            The node to use when searching for tracks. If no :class:`wavelinkcord.Node` is passed,
+            one will be fetched via the :class:`wavelinkcord.NodePool`.
         """
 
         check = yarl.URL(query)
@@ -223,7 +223,7 @@ class Playable(metaclass=abc.ABCMeta):
 
 
 class GenericTrack(Playable):
-    """Generic Wavelink Track.
+    """Generic wavelinkcord Track.
 
     Use this track for searching for Local songs or direct URLs.
     """

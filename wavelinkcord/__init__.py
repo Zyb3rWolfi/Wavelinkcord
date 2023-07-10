@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 __title__ = "WaveLinkCord"
-__author__ = "PythonistaGuild, EvieePy"
+__author__ = "Zyb3rWolfi"
 __license__ = "MIT"
 __copyright__ = "Copyright 2019-Present (c) PythonistaGuild, EvieePy"
-__version__ = "2.5.2b"
+__version__ = "2.5.1"
 
 from .enums import *
 from .exceptions import *
