@@ -29,7 +29,7 @@ from typing import TYPE_CHECKING, Any, Optional
 
 import aiohttp
 
-import wavelink
+import wavelinkcord
 
 from . import __version__
 from .backoff import Backoff
@@ -79,7 +79,7 @@ class Websocket:
         return {
             'Authorization': self.node.password,
             'User-Id': str(self.node.client.user.id),
-            'Client-Name': f'Wavelink/{__version__}'
+            'Client-Name': f'wavelinkcord/{__version__}'
         }
 
     def is_connected(self) -> bool:
@@ -208,7 +208,7 @@ class Websocket:
                         await player._destroy()
 
                     logger.debug(f'Node {self.node} websocket acknowledged "WebsocketClosedEvent": '
-                                 f'<code: {data["code"]}, reason: {data["reason"]}, by_discord: {data["byRemote"]}>. '
+                                 f'<code: {data["code"]}, reason: {data["reason"]}, by_nextcord: {data["byRemote"]}>. '
                                  f'Cleanup on player {player.guild.id} has been completed.')
 
                     payload: WebsocketClosedPayload = WebsocketClosedPayload(data=data, player=player)
@@ -221,7 +221,7 @@ class Websocket:
                                  f'Disregarding.')
                     continue
 
-                track = await self.node.build_track(cls=wavelink.GenericTrack, encoded=data['encodedTrack'])
+                track = await self.node.build_track(cls=wavelinkcord.GenericTrack, encoded=data['encodedTrack'])
                 payload: TrackEventPayload = TrackEventPayload(
                     data=data,
                     track=track,
@@ -254,15 +254,15 @@ class Websocket:
 
             else:
                 logger.warning(f'Received unknown payload from Lavalink: <{data}>. '
-                               f'If this continues consider making a ticket on the Wavelink GitHub. '
-                               f'https://github.com/PythonistaGuild/Wavelink')
+                               f'If this continues consider making a ticket on the wavelinkcord GitHub. '
+                               f'https://github.com/PythonistaGuild/wavelinkcord')
 
     def get_player(self, payload: dict[str, Any]) -> Optional['Player']:
         return self.node.players.get(int(payload['guildId']), None)
 
     def dispatch(self, event, *args: Any, **kwargs: Any) -> None:
-        self.node.client.dispatch(f"wavelink_{event}", *args, **kwargs)
-        logger.debug(f'Node {self.node} is dispatching an event: "on_wavelink_{event}".')
+        self.node.client.dispatch(f"wavelinkcord{event}", *args, **kwargs)
+        logger.debug(f'Node {self.node} is dispatching an event: "on_wavelinkord{event}".')
 
     # noinspection PyBroadException
     async def cleanup(self) -> None:

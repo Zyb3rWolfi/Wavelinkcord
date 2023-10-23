@@ -4,13 +4,13 @@ import subprocess
 import sys
 
 import aiohttp
-import discord
+import nextcord
 
-import wavelink
+import wavelinkcord
 
 
-parser = argparse.ArgumentParser(prog='wavelink')
-parser.add_argument('--version', action='store_true', help='Get version and debug information for wavelink.')
+parser = argparse.ArgumentParser(prog='wavelinkcord')
+parser.add_argument('--version', action='store_true', help='Get version and debug information for wavelinkcord.')
 
 
 args = parser.parse_args()
@@ -29,8 +29,8 @@ def get_debug_info() -> None:
     Java:
         - {java_version or "Version Not Found"}
     Libraries:
-        - wavelink   : v{wavelink.__version__}
-        - discord.py : v{discord.__version__}
+        - wavelinkcord   : v{wavelinkcord.__version__}
+        - nextcord.py : v{nextcord.__version__}
         - aiohttp    : v{aiohttp.__version__}
     """
 

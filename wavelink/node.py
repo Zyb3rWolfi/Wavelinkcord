@@ -30,9 +30,9 @@ import string
 from typing import TYPE_CHECKING, Any, TypeVar
 
 import aiohttp
-import discord
-from discord.enums import try_enum
-from discord.utils import MISSING, classproperty
+import nextcord
+from nextcord.enums import try_enum
+from nextcord.utils import MISSING, classproperty
 import urllib.parse
 
 from . import __version__
@@ -57,7 +57,7 @@ logger: logging.Logger = logging.getLogger(__name__)
 
 # noinspection PyShadowingBuiltins
 class Node:
-    """The base Wavelink Node.
+    """The base wavelinkcord Node.
 
     The Node is responsible for keeping the Websocket alive, tracking the state of Players
     and fetching/decoding Tracks and Playlists.
@@ -103,8 +103,8 @@ class Node:
     ----------
     heartbeat: float
         The time in seconds to send a heartbeat ack. Defaults to 15.0.
-    client: :class:`discord.Client`
-        The discord client used to connect this Node. Could be None if this Node has not been connected.
+    client: :class:`nextcord.Client`
+        The nextcord client used to connect this Node. Could be None if this Node has not been connected.
     """
 
     def __init__(
@@ -134,7 +134,7 @@ class Node:
         self.heartbeat: float = heartbeat
         self._retries: int | None = retries
 
-        self.client: discord.Client | None = None
+        self.client: nextcord.Client | None = None
         self._websocket: Websocket = MISSING
         self._session_id: str | None = None
 
@@ -198,7 +198,7 @@ class Node:
         """
         return self._players.get(guild_id, None)
 
-    async def _connect(self, client: discord.Client) -> None:
+    async def _connect(self, client: nextcord.Client) -> None:
         if client.user is None:
             raise RuntimeError('')
 
@@ -222,16 +222,16 @@ class Node:
                 version_tuple = tuple(int(v) for v in version.split('.'))
             except ValueError:
                 logging.warning(f'Lavalink "{version}" is unknown and may not be compatible with: '
-                                f'Wavelink "{__version__}". Wavelink is assuming the Lavalink version.')
+                                f'wavelinkcord "{__version__}". wavelinkcord is assuming the Lavalink version.')
 
                 self._major_version = 3
                 return
 
             if version_tuple[0] < 3:
-                raise InvalidLavalinkVersion(f'Wavelink "{__version__}" is not compatible with Lavalink "{version}".')
+                raise InvalidLavalinkVersion(f'wavelinkcord "{__version__}" is not compatible with Lavalink "{version}".')
 
             if version_tuple[0] == 3 and version_tuple[1] < 7:
-                raise InvalidLavalinkVersion(f'Wavelink "{__version__}" is not compatible with '
+                raise InvalidLavalinkVersion(f'wavelinkcord "{__version__}" is not compatible with '
                                              f'Lavalink versions under "3.7".')
 
             self._major_version = version_tuple[0]
@@ -333,7 +333,7 @@ class Node:
         Returns
         -------
         Optional[:class:`tracks.Playlist`]:
-            The related wavelink track object or ``None`` if none was found.
+            The related wavelinkcord track object or ``None`` if none was found.
 
         Raises
         ------
@@ -382,7 +382,7 @@ class Node:
 
 # noinspection PyShadowingBuiltins
 class NodePool:
-    """The Wavelink NodePool is responsible for keeping track of all :class:`Node`.
+    """The wavelinkcord NodePool is responsible for keeping track of all :class:`Node`.
 
     Attributes
     ----------
@@ -401,7 +401,7 @@ class NodePool:
     async def connect(
             cls,
             *,
-            client: discord.Client,
+            client: nextcord.Client,
             nodes: list[Node],
             spotify: spotify_.SpotifyClient | None = None
     ) -> dict[str, Node]:
@@ -411,8 +411,8 @@ class NodePool:
 
         Parameters
         ----------
-        client: :class:`discord.Client`
-            The discord Client or Bot used to connect the Nodes.
+        client: :class:`nextcord.Client`
+            The nextcord Client or Bot used to connect the Nodes.
         nodes: list[:class:`Node`]
             A list of Nodes to connect.
         spotify: Optional[:class:`ext.spotify.SpotifyClient`]
@@ -471,12 +471,12 @@ class NodePool:
         """
         if id:
             if id not in cls.__nodes:
-                raise InvalidNode(f'A Node with ID "{id}" does not exist on the Wavelink NodePool.')
+                raise InvalidNode(f'A Node with ID "{id}" does not exist on the wavelinkcord NodePool.')
 
             return cls.__nodes[id]
 
         if not cls.__nodes:
-            raise InvalidNode('No Node currently exists on the Wavelink NodePool.')
+            raise InvalidNode('No Node currently exists on the wavelinkcord NodePool.')
 
         nodes = cls.__nodes.values()
         return sorted(nodes, key=lambda n: len(n.players))[0]
@@ -498,7 +498,7 @@ class NodePool:
 
         nodes: list[Node] = [n for n in cls.__nodes.values() if n.status is NodeStatus.CONNECTED]
         if not nodes:
-            raise InvalidNode('There are no Nodes on the Wavelink NodePool that are currently in the connected state.')
+            raise InvalidNode('There are no Nodes on the wavelinkcord NodePool that are currently in the connected state.')
 
         return sorted(nodes, key=lambda n: len(n.players))[0]
 

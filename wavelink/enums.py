@@ -21,9 +21,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from discord.enums import Enum
+from nextcord.enums import Enum
 
-__all__ = ('NodeStatus', 'TrackSource', 'LoadType', 'TrackEventType', 'DiscordVoiceCloseType')
+__all__ = ('NodeStatus', 'TrackSource', 'LoadType', 'TrackEventType', 'nextcordVoiceCloseType')
 
 
 class NodeStatus(Enum):
@@ -106,8 +106,8 @@ class TrackEventType(Enum):
     END = 'TrackEndEvent'
 
 
-class DiscordVoiceCloseType(Enum):
-    """Enum representing the various Discord Voice Websocket Close Codes.
+class nextcordVoiceCloseType(Enum):
+    """Enum representing the various nextcord Voice Websocket Close Codes.
 
     Attributes
     ----------
@@ -138,7 +138,7 @@ class DiscordVoiceCloseType(Enum):
     UNKNOWN_ENCRYPTION_MODE
         4016
     """
-    CLOSE_NORMAL = 1000  # Not Discord but standard websocket
+    CLOSE_NORMAL = 1000  # Not nextcord but standard websocket
     UNKNOWN_OPCODE = 4001
     FAILED_DECODE_PAYLOAD = 4002
     NOT_AUTHENTICATED = 4003

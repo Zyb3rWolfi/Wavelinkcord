@@ -57,7 +57,7 @@ class SpotifySearchType(enum.Enum):
     playlist
         Playlist search type.
     unusable
-        Unusable type. This type is assigned when Wavelink can not be used to play this track.
+        Unusable type. This type is assigned when wavelinkcord can not be used to play this track.
     """
     track = 0
     album = 1
@@ -147,7 +147,7 @@ def decode_url(url: str) -> SpotifyDecodePayload | None:
 
     .. code:: python3
 
-        from wavelink.ext import spotify
+        from wavelinkcord.ext import spotify
 
 
         decoded = spotify.decode_url("https://open.spotify.com/track/6BDLcvvtyJD2vnXRDi1IjQ?si=e2e5bd7aaf3d4a2a")

@@ -39,7 +39,7 @@ __all__ = (
 
 
 class WavelinkException(Exception):
-    """Base wavelink exception."""
+    """Base wavelinkcord exception."""
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args)
@@ -55,12 +55,12 @@ class InvalidNode(WavelinkException):
 
 
 class InvalidLavalinkVersion(WavelinkException):
-    """Exception raised when you try to use wavelink 2 with a Lavalink version under 3.7."""
+    """Exception raised when you try to use wavelinkcord 2 with a Lavalink version under 3.7."""
     pass
 
 
 class InvalidLavalinkResponse(WavelinkException):
-    """Exception raised when wavelink receives an invalid response from Lavalink.
+    """Exception raised when wavelinkcord receives an invalid response from Lavalink.
 
     Attributes
     ----------
@@ -84,7 +84,7 @@ class QueueEmpty(WavelinkException):
 
 
 class InvalidChannelStateError(WavelinkException):
-    """Base exception raised when an error occurs trying to connect to a :class:`discord.VoiceChannel`."""
+    """Base exception raised when an error occurs trying to connect to a :class:`nextcord.VoiceChannel`."""
 
 
 class InvalidChannelPermissions(InvalidChannelStateError):

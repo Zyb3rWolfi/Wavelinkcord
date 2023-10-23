@@ -27,8 +27,8 @@ import datetime
 import logging
 from typing import TYPE_CHECKING, Any, Union
 
-import discord
-from discord.utils import MISSING
+import nextcord
+from nextcord.utils import MISSING
 
 from .enums import *
 from .exceptions import *
@@ -41,12 +41,12 @@ from .tracks import *
 
 
 if TYPE_CHECKING:
-    from discord.types.voice import GuildVoiceState, VoiceServerUpdate
+    from nextcord.types.voice import GuildVoiceState, VoiceServerUpdate
     from typing_extensions import Self
 
     from .types.events import PlayerState, PlayerUpdateOp
     from .types.request import EncodedTrackRequest, Request
-    from .types.state import DiscordVoiceState
+    from .types.state import nextcordVoiceState
 
 __all__ = ("Player",)
 
@@ -55,25 +55,25 @@ logger: logging.Logger = logging.getLogger(__name__)
 
 
 VoiceChannel = Union[
-    discord.VoiceChannel, discord.StageChannel
+    nextcord.VoiceChannel, nextcord.StageChannel
 ]  # todo: VocalGuildChannel?
 
 
-class Player(discord.VoiceProtocol):
-    """Wavelink Player class.
+class Player(nextcord.VoiceProtocol):
+    """wavelinkcord Player class.
 
-    This class is used as a :class:`~discord.VoiceProtocol` and inherits all its members.
+    This class is used as a :class:`~nextcord.VoiceProtocol` and inherits all its members.
 
-    You must pass this class to :meth:`discord.VoiceChannel.connect` with ``cls=...``. This ensures the player is
-    set up correctly and put into the discord.py voice client cache.
+    You must pass this class to :meth:`nextcord.VoiceChannel.connect` with ``cls=...``. This ensures the player is
+    set up correctly and put into the nextcord.py voice client cache.
 
     You **can** make an instance of this class *before* passing it to
-    :meth:`discord.VoiceChannel.connect` with ``cls=...``, but you **must** still pass it.
+    :meth:`nextcord.VoiceChannel.connect` with ``cls=...``, but you **must** still pass it.
 
     Once you have connected this class you do not need to store it anywhere as it will be stored on the
-    :class:`~wavelink.Node` and in the discord.py voice client cache. Meaning you can access this player where you
-    have access to a :class:`~wavelink.NodePool`, the specific :class:`~wavelink.Node` or a :class:`~discord.Guild`
-    including in :class:`~discord.ext.commands.Context` and :class:`~discord.Interaction`.
+    :class:`~wavelinkcord.Node` and in the nextcord.py voice client cache. Meaning you can access this player where you
+    have access to a :class:`~wavelinkcord.NodePool`, the specific :class:`~wavelinkcord.Node` or a :class:`~nextcord.Guild`
+    including in :class:`~nextcord.ext.commands.Context` and :class:`~nextcord.Interaction`.
 
     Examples
     --------
@@ -81,10 +81,10 @@ class Player(discord.VoiceProtocol):
     .. code:: python3
 
         # Connect the player...
-        player: wavelink.Player = await ctx.author.voice.channel.connect(cls=wavelink.Player)
+        player: wavelinkcord.Player = await ctx.author.voice.channel.connect(cls=wavelinkcord.Player)
 
         # Retrieve the player later...
-        player: wavelink.Player = ctx.guild.voice_client
+        player: wavelinkcord.Player = ctx.guild.voice_client
 
 
     .. note::
@@ -103,24 +103,24 @@ class Player(discord.VoiceProtocol):
 
     Attributes
     ----------
-    client: :class:`discord.Client`
-        The discord Client or Bot associated with this Player.
-    channel: :class:`discord.VoiceChannel`
+    client: :class:`nextcord.Client`
+        The nextcord Client or Bot associated with this Player.
+    channel: :class:`nextcord.VoiceChannel`
         The channel this player is currently connected to.
     nodes: list[:class:`node.Node`]
         The list of Nodes this player is currently using.
     current_node: :class:`node.Node`
         The Node this player is currently using.
     queue: :class:`queue.Queue`
-        The wavelink built in Queue. See :class:`queue.Queue`. This queue always takes precedence over the auto_queue.
+        The wavelinkcord built in Queue. See :class:`queue.Queue`. This queue always takes precedence over the auto_queue.
         Meaning any songs in this queue will be played before auto_queue songs.
     auto_queue: :class:`queue.Queue`
         The built-in AutoPlay Queue. This queue keeps track of recommended songs only.
         When a song is retrieved from this queue in the AutoPlay event,
-        it is added to the main :attr:`wavelink.Queue.history` queue.
+        it is added to the main :attr:`wavelinkcord.Queue.history` queue.
     """
 
-    def __call__(self, client: discord.Client, channel: VoiceChannel) -> Self:
+    def __call__(self, client: nextcord.Client, channel: VoiceChannel) -> Self:
         self.client = client
         self.channel = channel
 
@@ -128,13 +128,13 @@ class Player(discord.VoiceProtocol):
 
     def __init__(
         self,
-        client: discord.Client = MISSING,
+        client: nextcord.Client = MISSING,
         channel: VoiceChannel = MISSING,
         *,
         nodes: list[Node] | None = None,
         swap_node_on_disconnect: bool = True
     ) -> None:
-        self.client: discord.Client = client
+        self.client: nextcord.Client = client
         self.channel: VoiceChannel | None = channel
 
         self.nodes: list[Node]
@@ -157,8 +157,8 @@ class Player(discord.VoiceProtocol):
                 raise RuntimeError('')
             self.client = self.current_node.client
 
-        self._guild: discord.Guild | None = None
-        self._voice_state: DiscordVoiceState = {}
+        self._guild: nextcord.Guild | None = None
+        self._voice_state: nextcordVoiceState = {}
         self._player_state: dict[str, Any] = {}
 
         self.swap_on_disconnect: bool = swap_node_on_disconnect
@@ -246,18 +246,18 @@ class Player(discord.VoiceProtocol):
 
         .. note::
 
-            You can still use the :func:`~wavelink.on_wavelink_track_end` event when ``autoplay`` is ``True``,
+            You can still use the :func:`~wavelinkcord.on_wavelink_track_end` event when ``autoplay`` is ``True``,
             but it is recommended to **not** do any queue logic or invoking play from this event.
 
-            Most users are able to use ``autoplay`` and :func:`~wavelink.on_wavelink_track_start` together to handle
+            Most users are able to use ``autoplay`` and :func:`~wavelinkcord.on_wavelink_track_start` together to handle
             their logic. E.g. sending a message when a track starts playing.
 
 
         .. note::
 
-            The ``auto_queue`` will be populated when you play a :class:`~wavelink.ext.spotify.SpotifyTrack` or
-            :class:`~wavelink.YouTubeTrack`, and have initially set ``populate`` to ``True`` in
-            :meth:`~wavelink.Player.play`. See :meth:`~wavelink.Player.play` for more info.
+            The ``auto_queue`` will be populated when you play a :class:`~wavelinkcord.ext.spotify.SpotifyTrack` or
+            :class:`~wavelinkcord.YouTubeTrack`, and have initially set ``populate`` to ``True`` in
+            :meth:`~wavelinkcord.Player.play`. See :meth:`~wavelinkcord.Player.play` for more info.
 
 
         .. versionadded:: 2.0
@@ -265,8 +265,8 @@ class Player(discord.VoiceProtocol):
 
         .. versionchanged:: 2.6.0
 
-            The autoplay event now populates the ``auto_queue`` when playing :class:`~wavelink.YouTubeTrack` **or**
-            :class:`~wavelink.ext.spotify.SpotifyTrack`.
+            The autoplay event now populates the ``auto_queue`` when playing :class:`~wavelinkcord.YouTubeTrack` **or**
+            :class:`~wavelinkcord.ext.spotify.SpotifyTrack`.
         """
         return self._autoplay
 
@@ -293,8 +293,8 @@ class Player(discord.VoiceProtocol):
         return self._volume
 
     @property
-    def guild(self) -> discord.Guild | None:
-        """The discord Guild associated with the Player."""
+    def guild(self) -> nextcord.Guild | None:
+        """The nextcord Guild associated with the Player."""
         return self._guild
 
     @property
@@ -314,7 +314,7 @@ class Player(discord.VoiceProtocol):
 
     @property
     def ping(self) -> int:
-        """The ping to the discord endpoint in milliseconds.
+        """The ping to the nextcord endpoint in milliseconds.
 
         .. versionadded:: 2.0
         """
@@ -404,7 +404,7 @@ class Player(discord.VoiceProtocol):
             assert self._guild is not None
             self.current_node._players[self._guild.id] = self
 
-    async def _dispatch_voice_update(self, data: DiscordVoiceState | None = None) -> None:
+    async def _dispatch_voice_update(self, data: nextcordVoiceState | None = None) -> None:
         assert self._guild is not None
 
         data = data or self._voice_state
@@ -451,7 +451,7 @@ class Player(discord.VoiceProtocol):
         if self.channel is None:
             self._invalidate(before_connect=True)
 
-            msg: str = 'Please use the method "discord.VoiceChannel.connect" and pass this player to cls='
+            msg: str = 'Please use the method "nextcord.VoiceChannel.connect" and pass this player to cls='
             logger.debug(f'Player tried connecting without a channel. {msg}')
 
             raise InvalidChannelStateError(msg)
@@ -469,14 +469,14 @@ class Player(discord.VoiceProtocol):
         await self.channel.guild.change_voice_state(channel=self.channel, **kwargs)
         logger.info(f'Player {self.guild.id} connected to channel: {self.channel}')
 
-    async def move_to(self, channel: discord.VoiceChannel) -> None:
+    async def move_to(self, channel: nextcord.VoiceChannel) -> None:
         """|coro|
 
         Moves the player to a different voice channel.
 
         Parameters
         -----------
-        channel: :class:`discord.VoiceChannel`
+        channel: :class:`nextcord.VoiceChannel`
             The channel to move to. Must be a voice channel.
         """
         self._connection_check(channel)
@@ -495,12 +495,12 @@ class Player(discord.VoiceProtocol):
                    ) -> Playable:
         """|coro|
 
-        Play a WaveLink Track.
+        Play a wavelinkcord Track.
 
         Parameters
         ----------
         track: :class:`tracks.Playable`
-            The :class:`tracks.Playable` or :class:`~wavelink.ext.spotify.SpotifyTrack` track to start playing.
+            The :class:`tracks.Playable` or :class:`~wavelinkcord.ext.spotify.SpotifyTrack` track to start playing.
         replace: bool
             Whether this track should replace the current track. Defaults to ``True``.
         start: Optional[int]
@@ -525,11 +525,11 @@ class Player(discord.VoiceProtocol):
 
         .. note::
 
-            If you pass a :class:`~wavelink.YouTubeTrack` **or** :class:`~wavelink.ext.spotify.SpotifyTrack` and set
-            ``populate=True``, **while** :attr:`~wavelink.Player.autoplay` is set to ``True``, this method will populate
+            If you pass a :class:`~wavelinkcord.YouTubeTrack` **or** :class:`~wavelinkcord.ext.spotify.SpotifyTrack` and set
+            ``populate=True``, **while** :attr:`~wavelinkcord.Player.autoplay` is set to ``True``, this method will populate
             the ``auto_queue`` with recommended songs. When the ``auto_queue`` is low on tracks this method will
             automatically populate the ``auto_queue`` with more tracks, and continue this cycle until either the
-            player has been disconnected or :attr:`~wavelink.Player.autoplay` is set to ``False``.
+            player has been disconnected or :attr:`~wavelinkcord.Player.autoplay` is set to ``False``.
 
 
         Example
@@ -537,7 +537,7 @@ class Player(discord.VoiceProtocol):
 
         .. code:: python3
 
-            tracks: list[wavelink.YouTubeTrack] = await wavelink.YouTubeTrack.search(...)
+            tracks: list[wavelinkcord.YouTubeTrack] = await wavelinkcord.YouTubeTrack.search(...)
             if not tracks:
                 # Do something as no tracks were found...
                 return
@@ -550,7 +550,7 @@ class Player(discord.VoiceProtocol):
 
         .. versionchanged:: 2.6.0
 
-            This method now accepts :class:`~wavelink.YouTubeTrack` or :class:`~wavelink.ext.spotify.SpotifyTrack`
+            This method now accepts :class:`~wavelinkcord.YouTubeTrack` or :class:`~wavelinkcord.ext.spotify.SpotifyTrack`
             when populating the ``auto_queue``.
         """
         assert self._guild is not None
@@ -739,7 +739,7 @@ class Player(discord.VoiceProtocol):
 
         Parameters
         ----------
-        filter: :class:`wavelink.Filter`
+        filter: :class:`wavelinkcord.Filter`
             The filter to apply to the player.
         seek: bool
             Whether to seek the player to its current position
@@ -804,7 +804,7 @@ class Player(discord.VoiceProtocol):
 
         .. versionchanged:: 2.5
 
-            The discord.py Voice Client cache and Player are invalidated as soon as this is called.
+            The nextcord.py Voice Client cache and Player are invalidated as soon as this is called.
         """
         self._invalidate()
         await self.guild.change_voice_state(channel=None)

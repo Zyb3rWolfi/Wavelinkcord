@@ -21,8 +21,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-__title__ = "WaveLink"
-__author__ = "PythonistaGuild, EvieePy"
+__title__ = "wavelinkcord"
+__author__ = "PythonistaGuild, EvieePy, Zyb3rWolfi"
 __license__ = "MIT"
 __copyright__ = "Copyright 2019-Present (c) PythonistaGuild, EvieePy"
 __version__ = "2.6.5"

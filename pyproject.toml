@@ -3,13 +3,13 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "wavelink"
+name = "wavelinkcord"
 version = "2.6.5"
 authors = [
-  { name="EvieePy", email="evieepy@gmail.com" },
+  { name="Zyb3rWolfi", email="zyb3rwolfi@proton.me" },
 ]
 dynamic = ["dependencies"]
-description = "A robust and powerful Lavalink wrapper for discord.py"
+description = "A robust and powerful Lavalink wrapper for nextcord"
 readme = "README.rst"
 requires-python = ">=3.10"
 classifiers = [

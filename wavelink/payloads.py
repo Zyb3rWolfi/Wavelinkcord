@@ -25,9 +25,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from discord.enums import try_enum
+from nextcord.enums import try_enum
 
-from .enums import TrackEventType, DiscordVoiceCloseType
+from .enums import TrackEventType, nextcordVoiceCloseType
 
 if TYPE_CHECKING:
     from .player import Player
@@ -38,12 +38,12 @@ __all__ = ('TrackEventPayload', 'WebsocketClosedPayload')
 
 
 class TrackEventPayload:
-    """The Wavelink Track Event Payload.
+    """The wavelinkcord Track Event Payload.
 
     .. warning::
 
         This class should not be created manually, instead you will receive it from the
-        various wavelink track events.
+        various wavelinkcord track events.
 
     Attributes
     ----------
@@ -69,27 +69,27 @@ class TrackEventPayload:
 
 
 class WebsocketClosedPayload:
-    """The Wavelink WebsocketClosed Event Payload.
+    """The wavelinkcord WebsocketClosed Event Payload.
 
     .. warning::
 
         This class should not be created manually, instead you will receive it from the
-        wavelink `on_wavelink_websocket_closed` event.
+        wavelinkcord `on_wavelink_websocket_closed` event.
 
     Attributes
     ----------
-    code: :class:`DiscordVoiceCloseType`
-        An Enum representing the close code from Discord.
+    code: :class:`nextcordVoiceCloseType`
+        An Enum representing the close code from nextcord.
     reason: Optional[str]
         The reason the Websocket was closed.
-    by_discord: bool
-        Whether the websocket was closed by Discord.
+    by_nextcord: bool
+        Whether the websocket was closed by nextcord.
     player: :class:`player.Player`
         The player associated with this event.
     """
 
     def __init__(self, *, data: dict[str, Any], player: Player) -> None:
-        self.code: DiscordVoiceCloseType = try_enum(DiscordVoiceCloseType, data['code'])
+        self.code: nextcordVoiceCloseType = try_enum(nextcordVoiceCloseType, data['code'])
         self.reason: str = data.get('reason')
-        self.by_discord: bool = data.get('byRemote')
+        self.by_nextcord: bool = data.get('byRemote')
         self.player: Player = player

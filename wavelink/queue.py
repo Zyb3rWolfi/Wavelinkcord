@@ -41,11 +41,11 @@ __all__ = (
 
 
 class BaseQueue:
-    """BaseQueue for wavelink.
+    """BaseQueue for wavelinkcord.
 
     All queues inherit from this queue.
 
-    See :class:`Queue` for the default :class:`~wavelink.Player` queue.
+    See :class:`Queue` for the default :class:`~wavelinkcord.Player` queue.
     Internally this queue uses a :class:`collections.deque`.
 
     .. warning::
@@ -329,7 +329,7 @@ class BaseQueue:
     def get(self) -> Playable | spotify.SpotifyTrack:
         """Return next immediately available item in queue if any.
 
-        Raises :exc:`~wavelink.QueueEmpty` if no items in queue.
+        Raises :exc:`~wavelinkcord.QueueEmpty` if no items in queue.
         """
         if self.is_empty:
             raise QueueEmpty("No items currently in the queue.")
@@ -339,7 +339,7 @@ class BaseQueue:
     def pop(self) -> Playable | spotify.SpotifyTrack:
         """Return item from the right end side of the queue.
 
-        Raises :exc:`~wavelink.QueueEmpty` if no items in queue.
+        Raises :exc:`~wavelinkcord.QueueEmpty` if no items in queue.
         """
         if self.is_empty:
             raise QueueEmpty("No items currently in the queue.")
@@ -356,20 +356,20 @@ class BaseQueue:
     def put(self, item: Playable | spotify.SpotifyTrack) -> None:
         """Put the given item into the back of the queue.
 
-        If the provided ``item`` is a :class:`~wavelink.YouTubePlaylist` or :class:`~wavelink.SoundCloudPlaylist`, all
+        If the provided ``item`` is a :class:`~wavelinkcord.YouTubePlaylist` or :class:`~wavelinkcord.SoundCloudPlaylist`, all
         tracks from this playlist will be put into the queue.
 
 
         .. note::
 
             Inserting playlists is currently only supported via this method, which means you can only insert them into
-            the back of the queue. Future versions of wavelink may add support for inserting playlists from a specific
+            the back of the queue. Future versions of wavelinkcord may add support for inserting playlists from a specific
             index, or at the front of the queue.
 
 
         .. versionchanged:: 2.6.0
 
-            Added support for directly adding a :class:`~wavelink.YouTubePlaylist` or :class:`~wavelink.SoundCloudPlaylist` to the queue.
+            Added support for directly adding a :class:`~wavelinkcord.YouTubePlaylist` or :class:`~wavelinkcord.SoundCloudPlaylist` to the queue.
         """
         self._check_playable(item)
 
@@ -438,7 +438,7 @@ class BaseQueue:
 class Queue(BaseQueue):
     """Main Queue class.
 
-    **All** :class:`~wavelink.Player` have this queue assigned to them.
+    **All** :class:`~wavelinkcord.Player` have this queue assigned to them.
 
     .. note::
 
@@ -460,7 +460,7 @@ class Queue(BaseQueue):
     Attributes
     ----------
     history: :class:`BaseQueue`
-        The history queue stores information about all previous played tracks for the :class:`~wavelink.Player`'s
+        The history queue stores information about all previous played tracks for the :class:`~wavelinkcord.Player`'s
         session.
     """
 
@@ -572,20 +572,20 @@ class Queue(BaseQueue):
 
         Put an item into the queue asynchronously using ``await``.
 
-        If the provided ``item`` is a :class:`~wavelink.YouTubePlaylist` or :class:`~wavelink.SoundCloudPlaylist`, all
+        If the provided ``item`` is a :class:`~wavelinkcord.YouTubePlaylist` or :class:`~wavelinkcord.SoundCloudPlaylist`, all
         tracks from this playlist will be put into the queue.
 
 
         .. note::
 
             Inserting playlists is currently only supported via this method, which means you can only insert them into
-            the back of the queue. Future versions of wavelink may add support for inserting playlists from a specific
+            the back of the queue. Future versions of wavelinkcord may add support for inserting playlists from a specific
             index, or at the front of the queue.
 
 
         .. versionchanged:: 2.6.0
 
-            Added support for directly adding a :class:`~wavelink.YouTubePlaylist` or :class:`~wavelink.SoundCloudPlaylist` to the queue.
+            Added support for directly adding a :class:`~wavelinkcord.YouTubePlaylist` or :class:`~wavelinkcord.SoundCloudPlaylist` to the queue.
         
             
         """
@@ -594,20 +594,20 @@ class Queue(BaseQueue):
     def put(self, item: Playable | spotify.SpotifyTrack) -> None:
         """Put the given item into the back of the queue.
 
-        If the provided ``item`` is a :class:`~wavelink.YouTubePlaylist` or :class:`~wavelink.SoundCloudPlaylist`, all
+        If the provided ``item`` is a :class:`~wavelinkcord.YouTubePlaylist` or :class:`~wavelinkcord.SoundCloudPlaylist`, all
         tracks from this playlist will be put into the queue.
 
 
         .. note::
 
             Inserting playlists is currently only supported via this method, which means you can only insert them into
-            the back of the queue. Future versions of wavelink may add support for inserting playlists from a specific
+            the back of the queue. Future versions of wavelinkcord may add support for inserting playlists from a specific
             index, or at the front of the queue.
 
 
         .. versionchanged:: 2.6.0
 
-            Added support for directly adding a :class:`~wavelink.YouTubePlaylist` or :class:`~wavelink.SoundCloudPlaylist` to the queue.
+            Added support for directly adding a :class:`~wavelinkcord.YouTubePlaylist` or :class:`~wavelinkcord.SoundCloudPlaylist` to the queue.
         """
         self._check_playable(item)
 
